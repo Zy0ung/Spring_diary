@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>일기 작성</title>
+</head>
+<body>
+<!-- action = 목적지(서버주소), method = http request method(get, post...) -->
+<form action="/diary/save" method = "post">
+    title : <input type="text" name="title"> <br>
+    body : <textarea type="text" name="text"> </textarea> <br>
+    <input type="submit" value="일기 저장">
+
+</form>
+</body>
+</html>
