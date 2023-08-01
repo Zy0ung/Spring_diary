@@ -25,7 +25,7 @@ public class DiaryController {
         return "index";
     }
 
-    @GetMapping("/") //일기 리스트
+    @GetMapping("/") // 일기 리스트
     public String findAll(Model model){
         // DB에서 전체 게시글 데이터를 가져와서 보여줌
         List<DiaryDto> diaryDtoList = diaryService.findAll();
@@ -33,7 +33,7 @@ public class DiaryController {
         return "list";
     }
 
-    @GetMapping("/{id}") // 일기 조회
+    @GetMapping("/{id}") // 일기 디테일 조회
     public String findById(@PathVariable Long id, Model model) {
         DiaryDto diaryDto = diaryService.findById(id);
         model.addAttribute("diary", diaryDto);
@@ -52,5 +52,11 @@ public class DiaryController {
         DiaryDto diary = diaryService.update(diaryDto);
         model.addAttribute("diary", diary);
         return "detail";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Long id){
+        diaryService.delete(id);
+        return "redirect:/diary/";
     }
 }
