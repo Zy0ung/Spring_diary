@@ -1,5 +1,6 @@
 package com.example.diary.entity;
 import com.example.diary.dto.DiaryDto;
+import com.fasterxml.jackson.databind.ser.Serializers;
 import lombok.*;
 import javax.persistence.*;
 
@@ -14,11 +15,19 @@ public class Diary extends BaseEntity{
     private String title;
     private String text;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    private User user;
 
     public static Diary toSaveEntity(DiaryDto diaryDto){
         Diary diary = new Diary();
+        diary.setTitle(diaryDto.getTitle());
+        diary.setText(diaryDto.getText());
+        return diary;
+    }
+
+    public static Diary toUpdateEntity(DiaryDto diaryDto) {
+        Diary diary = new Diary();
+        diary.setId(diaryDto.getId());
         diary.setTitle(diaryDto.getTitle());
         diary.setText(diaryDto.getText());
         return diary;
