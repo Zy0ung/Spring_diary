@@ -7,13 +7,18 @@
 <body>
     <button onclick="saveReq()">일기 작성</button>
     <button onclick="ListReq()">일기 목록</button>
+    <button onclick="pagingReq()">페이징된 일기 목록</button>
 </body>
 <script>
     function saveReq() {
         location.href = '/diary/save';
     }
     function ListReq() {
-        location.href = '/diary/'
+        location.href = '/diary/';
+    }
+
+    function pagingReq() {
+        location.href = '/diary/paging';
     }
 </script>
 </html>

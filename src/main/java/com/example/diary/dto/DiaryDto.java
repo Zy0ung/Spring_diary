@@ -28,4 +28,10 @@ public class DiaryDto {
         diaryDto.setUpdateTime(diary.getUpdateTime());
         return diaryDto;
     }
+
+    public DiaryDto(Long id, String title, LocalDateTime createTime) {
+        this.id = id;
+        this.title = title;
+        this.createTime = createTime;
+    }
 }

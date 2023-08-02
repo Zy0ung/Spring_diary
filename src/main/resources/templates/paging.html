@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>paging</title>
+</head>
+<body>
+    <button onclick="saveReq()">글작성</button>
+
+    <table>
+        <tr>
+            <th>id</th>
+            <th>title</th>
+            <th>date</th>
+        </tr>
+        <tr th:each="diary: ${diaryList}">
+            <td th:text="${diary.id}"></td>
+            <td><a th:href="@{|/diary/${diary.id}|(page=${diaryList.number + 1})}" th:text="${diary.title}"></a></td>
+            <td th:text="*{#temporals.format(diary.createTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+        </tr>
+    </table>
+    <!-- 첫번째 페이지로 이동 -->
+    <!-- /diary/paging?page=1 -->
+    <a th:href="@{/diary/paging(page=1)}">First</a>
+    <!-- 이전 링크 활성화 비활성화 -->
+    <!-- diaryList.getNumber() 사용자:2페이지 getNumber()=1 -->
+    <a th:href="${diaryList.first} ? '#' : @{/diary/paging(page=${diaryList.number})}">prev</a>
+
+    <!-- 페이지 번호 링크(현재 페이지는 숫자만)
+            for(int page=startPage; page<=endPage; page++)-->
+    <span th:each="page: ${#numbers.sequence(startPage, endPage)}">
+    <!-- 현재페이지는 링크 없이 숫자만 -->
+        <span th:if="${page == diaryList.number + 1}" th:text="${page}"></span>
+        <!-- 현재페이지 번호가 아닌 다른 페이지번호에는 링크를 보여줌 -->
+        <span th:unless="${page == diaryList.number + 1}">
+            <a th:href="@{/diary/paging(page=${page})}" th:text="${page}"></a>
+        </span>
+    </span>
+
+    <!-- 다음 링크 활성화 비활성화
+        사용자: 2페이지, getNumber: 1, 3페이지-->
+    <a th:href="${diaryList.last} ? '#' : @{/diary/paging(page=${diaryList.number + 2})}">next</a>
+    <!-- 마지막 페이지로 이동 -->
+    <a th:href="@{/diary/paging(page=${diaryList.totalPages})}">Last</a>
+
+</body>
+<script>
+    const saveReq = () => {
+        location.href = "/diary/save";
+    }
+
+</script>
+</html>

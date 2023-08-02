@@ -29,17 +29,17 @@
     <td th:text="${diary.text}"></td>
   </tr>
 </table>
-<!--<button onclick="listReq()">목록</button>-->
+<button onclick="listReq()">목록</button>
 <button onclick="updateReq()">수정</button>
 <button onclick="deleteReq()">삭제</button>
 
 </body>
 <script th:inline="javascript">
-  // const listReq = () => {
-  //   console.log("목록 요청");
-  //   const page = [[${page}]];
-  //   location.href = "/diary/paging?page="+page;
-  // }
+  const listReq = () => {
+    console.log("목록 요청");
+    const page = [[${page}]];
+    location.href = "/diary/paging?page="+page;
+  }
   const updateReq = () => {
     console.log("수정 요청");
     const id = [[${diary.id}]];

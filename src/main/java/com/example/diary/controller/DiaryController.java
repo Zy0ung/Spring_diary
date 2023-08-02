@@ -3,6 +3,10 @@ package com.example.diary.controller;
 import com.example.diary.dto.DiaryDto;
 import com.example.diary.service.DiaryService;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -34,9 +38,11 @@ public class DiaryController {
     }
 
     @GetMapping("/{id}") // 일기 디테일 조회
-    public String findById(@PathVariable Long id, Model model) {
+    public String findById(@PathVariable Long id, Model model,
+                                @PageableDefault(page=1) Pageable pageable) {
         DiaryDto diaryDto = diaryService.findById(id);
         model.addAttribute("diary", diaryDto);
+        model.addAttribute("page", pageable.getPageNumber());
         return "detail";
     }
 
@@ -58,5 +64,21 @@ public class DiaryController {
     public String delete(@PathVariable Long id){
         diaryService.delete(id);
         return "redirect:/diary/";
+    }
+
+    // /board/paging?page=1
+    @GetMapping("paging")
+    public String paging(@PageableDefault(page = 1) Pageable pageable, Model model) {
+        // pageable.getPageNumber();
+        Page<DiaryDto> diaryList = diaryService.paging(pageable);
+        int blockLimit = 3;
+        int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
+        int endPage = ((startPage + blockLimit - 1) < diaryList.getTotalPages()) ? startPage + blockLimit - 1 : diaryList.getTotalPages();
+
+        model.addAttribute("diaryList", diaryList);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+
+        return "paging";
     }
 }
